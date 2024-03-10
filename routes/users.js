@@ -43,8 +43,25 @@ router.get("/:email", (request, response) => {
 
 // POST request: Create a new user
 router.post("/", (request, response) => {
-  // Copy the code here
-  response.send("Yet to be implemented")//This line is to be replaced with actual return value
+  const { firstName, lastName, email, DOB } = request.query;
+
+  if (!firstName) {
+    response.status(400).send("First name is required!");
+  }
+  if (!lastName) {
+    response.status(400).send("Last name is required!");
+  }
+  if (!email) {
+    response.status(400).send("email is required!");
+  }
+  if (!DOB) {
+    response.status(400).send("DOB is required!");
+  }
+
+  // @ts-ignore
+  users.push({ firstName, lastName, email, DOB });
+
+  response.status(200).send(`The user ${firstName} ${lastName} has been added successfully!`)//This line is to be replaced with actual return value
 });
 
 
