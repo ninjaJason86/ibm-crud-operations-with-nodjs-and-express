@@ -25,7 +25,7 @@ let users = [
 
 // GET request: Retrieve all users
 router.get("/", (request, response) => {
-  response.send(users)
+  response.send(JSON.stringify(users, null, 4))
 });
 
 // GET by specific ID request: Retrieve a single user with email ID
@@ -37,7 +37,7 @@ router.get("/:email", (request, response) => {
     response.status(404).send("User not found");
   }
 
-  response.send(user);
+  response.send(JSON.stringify(user, null, 4));
 });
 
 
