@@ -2,6 +2,12 @@ const express = require('express');
 const router = express.Router();
 
 
+function getDateFromString(stringDate) {
+  const [dd, mm, yyyy] = stringDate.split("-");
+
+  return new Date(`${yyyy}-${mm}-${dd}`);
+}
+
 let users = [
   {
     firstName: "John",
@@ -26,6 +32,17 @@ let users = [
 // GET request: Retrieve all users
 router.get("/", (request, response) => {
   response.send(JSON.stringify(users, null, 4))
+});
+
+router.get("/sort/DOB", (request, response) => {
+  const sortedUsers = users.sort((a, b) => {
+    const dateA = getDateFromString(a.DOB);
+    const dateB = getDateFromString(b.DOB);
+    // @ts-ignore
+    return dateA - dateB;
+  })
+
+  response.send(JSON.stringify(sortedUsers, null, 4))
 });
 
 // GET by specific ID request: Retrieve a single user with email ID
