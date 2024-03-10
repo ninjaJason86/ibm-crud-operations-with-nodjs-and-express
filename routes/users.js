@@ -40,6 +40,14 @@ router.get("/:email", (request, response) => {
   response.send(JSON.stringify(user, null, 4));
 });
 
+router.get("/lastName/:lastName", (request, response) => {
+  const { params: { lastName } } = request;
+
+  const filteredUsers = users.filter((user) => user.lastName === lastName);
+
+  response.send(JSON.stringify(filteredUsers, null, 4));
+});
+
 
 // POST request: Create a new user
 router.post("/", (request, response) => {
