@@ -67,8 +67,31 @@ router.post("/", (request, response) => {
 
 // PUT request: Update the details of a user by email ID
 router.put("/:email", (request, response) => {
-  // Copy the code here
-  response.send("Yet to be implemented")//This line is to be replaced with actual return value
+  const { email } = request.params;
+  const { firstName: updatedFirstName, lastName: updateLastName, email: updatedEmail, DOB: updatedDOB } = request.query;
+
+  const userIndex = users.findIndex((user) => user.email === email);
+  if (userIndex === -1) {
+    response.status(404).send("User not found");
+  }
+
+  if (!updatedFirstName && !updateLastName && !updatedEmail && !updatedDOB) {
+    response.status(400).send("No updates provided");
+  }
+
+  const user = users.splice(userIndex, 1)[0];
+  const updatedUser = {
+    firstName: updatedFirstName ?? user.firstName,
+    lastName: updateLastName ?? user.lastName,
+    DOB: updatedDOB ?? user.DOB,
+    email: updatedEmail ?? user.email,
+  };
+
+  // @ts-ignore
+  users.push(updatedUser);
+
+  response.status(200).send(`User with email: ${email} updated successfully!`)
+
 });
 
 
